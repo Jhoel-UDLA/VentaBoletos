@@ -1,39 +1,62 @@
 package ventaboletos.modelo;
 
-import java.util.LinkedList;
-
 /**
- * Estructura de cola (FIFO) de pasajeros que esperan embarcar.
- * El primero en comprar es el primero en subir.
+ * Datos de un pasajero y de los boletos que compra.
  */
 public class Pasajeros {
 
-    private final LinkedList<VentaBoletos> cola = new LinkedList<>();
+    private String nombre;
+    private String cedula;
+    private String ruta;
+    private int numBoletos;
 
-    /** Registra (encola) al pasajero al final de la cola al momento de la venta. */
-    public void registrar(VentaBoletos venta) {
-        cola.addLast(venta);
+    public Pasajeros(String nombre, String cedula, String ruta, int numBoletos) {
+        this.nombre = nombre;
+        this.cedula = cedula;
+        this.ruta = ruta;
+        this.numBoletos = numBoletos;
     }
 
-    /** Saca de la cola a la persona que ya subió (el primero). Devuelve null si está vacía. */
-    public VentaBoletos embarcar() {
-        return cola.pollFirst();
+    public String getNombre() {
+        return nombre;
     }
 
-    /** Devuelve el siguiente en la cola sin sacarlo. Devuelve null si está vacía. */
-    public VentaBoletos verSiguiente() {
-        return cola.peekFirst();
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public boolean estaVacia() {
-        return cola.isEmpty();
+    public String getCedula() {
+        return cedula;
     }
 
-    public int tamanio() {
-        return cola.size();
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
     }
 
-    public LinkedList<VentaBoletos> getCola() {
-        return cola;
+    public String getRuta() {
+        return ruta;
+    }
+
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
+    }
+
+    public int getNumBoletos() {
+        return numBoletos;
+    }
+
+    public void setNumBoletos(int numBoletos) {
+        this.numBoletos = numBoletos;
+    }
+
+    /** Precio total de los boletos de este pasajero. */
+    public double getTotal() {
+        return numBoletos * Bus.precioDeRuta(ruta);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Ruta: %s | Boletos: %d | Pasajero: %s (%s) | Total: $%.2f",
+                ruta, numBoletos, nombre, cedula, getTotal());
     }
 }

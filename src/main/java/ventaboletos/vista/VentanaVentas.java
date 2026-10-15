@@ -4,7 +4,8 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import ventaboletos.logica.SistemaVentas;
-import ventaboletos.modelo.VentaBoletos;
+import ventaboletos.modelo.Bus;
+import ventaboletos.modelo.Pasajeros;
 
 /**
  * Interfaz gráfica (JFrame Form de NetBeans) para la venta de boletos.
@@ -14,9 +15,11 @@ public class VentanaVentas extends javax.swing.JFrame {
 
     private final SistemaVentas sistema = new SistemaVentas();
 
-    // Labels de cada ruta, en el mismo orden que el ComboBox
+    // Labels de cada bus, en el mismo orden que el ComboBox (0 = Guayaquil, 1 = Cuenca, 2 = Loja)
     private JLabel[] lblVendidos;
     private JLabel[] lblDisponibles;
+    private JLabel[] lblSiguiente;
+    private JLabel[] lblEnCola;
 
     /**
      * Creates new form VentanaVentas
@@ -25,6 +28,8 @@ public class VentanaVentas extends javax.swing.JFrame {
         initComponents();
         lblVendidos = new JLabel[]{lblVendidosGuayaquil, lblVendidosCuenca, lblVendidosLoja};
         lblDisponibles = new JLabel[]{lblDisponiblesGuayaquil, lblDisponiblesCuenca, lblDisponiblesLoja};
+        lblSiguiente = new JLabel[]{lblSiguienteGuayaquil, lblSiguienteCuenca, lblSiguienteLoja};
+        lblEnCola = new JLabel[]{lblEnColaGuayaquil, lblEnColaCuenca, lblEnColaLoja};
         actualizarLabels();
     }
 
@@ -63,11 +68,18 @@ public class VentanaVentas extends javax.swing.JFrame {
         lblDisponiblesLoja = new javax.swing.JLabel();
         lblTextoTotal = new javax.swing.JLabel();
         lblTotalRecaudado = new javax.swing.JLabel();
-        pnlCola = new javax.swing.JPanel();
-        btnVerSiguiente = new javax.swing.JButton();
-        btnEmbarcar = new javax.swing.JButton();
-        lblSiguiente = new javax.swing.JLabel();
-        lblEnCola = new javax.swing.JLabel();
+        pnlBusGuayaquil = new javax.swing.JPanel();
+        lblSiguienteGuayaquil = new javax.swing.JLabel();
+        lblEnColaGuayaquil = new javax.swing.JLabel();
+        btnEmbarcarGuayaquil = new javax.swing.JButton();
+        pnlBusCuenca = new javax.swing.JPanel();
+        lblSiguienteCuenca = new javax.swing.JLabel();
+        lblEnColaCuenca = new javax.swing.JLabel();
+        btnEmbarcarCuenca = new javax.swing.JButton();
+        pnlBusLoja = new javax.swing.JPanel();
+        lblSiguienteLoja = new javax.swing.JLabel();
+        lblEnColaLoja = new javax.swing.JLabel();
+        btnEmbarcarLoja = new javax.swing.JButton();
         scrollVentas = new javax.swing.JScrollPane();
         txtAreaVentas = new javax.swing.JTextArea();
 
@@ -194,39 +206,80 @@ public class VentanaVentas extends javax.swing.JFrame {
         getContentPane().add(pnlResumen);
         pnlResumen.setBounds(420, 50, 380, 215);
 
-        pnlCola.setBorder(javax.swing.BorderFactory.createTitledBorder("Cola de embarque"));
-        pnlCola.setLayout(null);
+        pnlBusGuayaquil.setBorder(javax.swing.BorderFactory.createTitledBorder("Bus QUITO - GUAYAQUIL"));
+        pnlBusGuayaquil.setLayout(null);
 
-        btnVerSiguiente.setText("Ver siguiente");
-        btnVerSiguiente.addActionListener(new java.awt.event.ActionListener() {
+        lblSiguienteGuayaquil.setText("Siguiente: (cola vacía)");
+        lblSiguienteGuayaquil.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pnlBusGuayaquil.add(lblSiguienteGuayaquil);
+        lblSiguienteGuayaquil.setBounds(12, 25, 232, 22);
+
+        lblEnColaGuayaquil.setText("En cola: 0");
+        pnlBusGuayaquil.add(lblEnColaGuayaquil);
+        lblEnColaGuayaquil.setBounds(12, 50, 232, 22);
+
+        btnEmbarcarGuayaquil.setText("Embarcar Guayaquil");
+        btnEmbarcarGuayaquil.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEmbarcarGuayaquil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerSiguienteActionPerformed(evt);
+                btnEmbarcarGuayaquilActionPerformed(evt);
             }
         });
-        pnlCola.add(btnVerSiguiente);
-        btnVerSiguiente.setBounds(20, 25, 140, 30);
+        pnlBusGuayaquil.add(btnEmbarcarGuayaquil);
+        btnEmbarcarGuayaquil.setBounds(12, 82, 232, 32);
 
-        btnEmbarcar.setText("Embarcar");
-        btnEmbarcar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEmbarcar.addActionListener(new java.awt.event.ActionListener() {
+        getContentPane().add(pnlBusGuayaquil);
+        pnlBusGuayaquil.setBounds(20, 275, 254, 130);
+
+        pnlBusCuenca.setBorder(javax.swing.BorderFactory.createTitledBorder("Bus QUITO - CUENCA"));
+        pnlBusCuenca.setLayout(null);
+
+        lblSiguienteCuenca.setText("Siguiente: (cola vacía)");
+        lblSiguienteCuenca.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pnlBusCuenca.add(lblSiguienteCuenca);
+        lblSiguienteCuenca.setBounds(12, 25, 232, 22);
+
+        lblEnColaCuenca.setText("En cola: 0");
+        pnlBusCuenca.add(lblEnColaCuenca);
+        lblEnColaCuenca.setBounds(12, 50, 232, 22);
+
+        btnEmbarcarCuenca.setText("Embarcar Cuenca");
+        btnEmbarcarCuenca.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEmbarcarCuenca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEmbarcarActionPerformed(evt);
+                btnEmbarcarCuencaActionPerformed(evt);
             }
         });
-        pnlCola.add(btnEmbarcar);
-        btnEmbarcar.setBounds(170, 25, 140, 30);
+        pnlBusCuenca.add(btnEmbarcarCuenca);
+        btnEmbarcarCuenca.setBounds(12, 82, 232, 32);
 
-        lblSiguiente.setText("Siguiente: (cola vacía)");
-        lblSiguiente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        pnlCola.add(lblSiguiente);
-        lblSiguiente.setBounds(330, 25, 300, 30);
+        getContentPane().add(pnlBusCuenca);
+        pnlBusCuenca.setBounds(283, 275, 254, 130);
 
-        lblEnCola.setText("En cola: 0");
-        pnlCola.add(lblEnCola);
-        lblEnCola.setBounds(640, 25, 120, 30);
+        pnlBusLoja.setBorder(javax.swing.BorderFactory.createTitledBorder("Bus QUITO - LOJA"));
+        pnlBusLoja.setLayout(null);
 
-        getContentPane().add(pnlCola);
-        pnlCola.setBounds(20, 275, 780, 70);
+        lblSiguienteLoja.setText("Siguiente: (cola vacía)");
+        lblSiguienteLoja.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pnlBusLoja.add(lblSiguienteLoja);
+        lblSiguienteLoja.setBounds(12, 25, 232, 22);
+
+        lblEnColaLoja.setText("En cola: 0");
+        pnlBusLoja.add(lblEnColaLoja);
+        lblEnColaLoja.setBounds(12, 50, 232, 22);
+
+        btnEmbarcarLoja.setText("Embarcar Loja");
+        btnEmbarcarLoja.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEmbarcarLoja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmbarcarLojaActionPerformed(evt);
+            }
+        });
+        pnlBusLoja.add(btnEmbarcarLoja);
+        btnEmbarcarLoja.setBounds(12, 82, 232, 32);
+
+        getContentPane().add(pnlBusLoja);
+        pnlBusLoja.setBounds(546, 275, 254, 130);
 
         scrollVentas.setBorder(javax.swing.BorderFactory.createTitledBorder("Ventas y embarques"));
         txtAreaVentas.setEditable(false);
@@ -235,27 +288,28 @@ public class VentanaVentas extends javax.swing.JFrame {
         txtAreaVentas.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         scrollVentas.setViewportView(txtAreaVentas);
         getContentPane().add(scrollVentas);
-        scrollVentas.setBounds(20, 355, 780, 270);
+        scrollVentas.setBounds(20, 415, 780, 230);
 
-        setSize(new java.awt.Dimension(840, 690));
+        setSize(new java.awt.Dimension(840, 700));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
         try {
-            String ruta = (String) cmbRuta.getSelectedItem();
-            VentaBoletos venta = sistema.vender(ruta,
+            // El índice del ComboBox indica el bus (ruta) seleccionado
+            Pasajeros pasajero = sistema.vender(cmbRuta.getSelectedIndex(),
                     txtCedula.getText(),
                     txtNombre.getText(),
                     txtCantidad.getText());
 
             // Mostrar la venta en el TextArea
-            txtAreaVentas.append("VENTA:   " + venta + "\n");
+            txtAreaVentas.append("VENTA:   " + pasajero + "\n");
 
             actualizarLabels();
             limpiarCampos();
             JOptionPane.showMessageDialog(this,
-                    String.format("Venta registrada y pasajero en cola.%nTotal a pagar: $%.2f", venta.getTotal()),
+                    String.format("Venta registrada y pasajero en la cola del bus.%nTotal a pagar: $%.2f",
+                            pasajero.getTotal()),
                     "Compra exitosa", JOptionPane.INFORMATION_MESSAGE);
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(),
@@ -263,48 +317,52 @@ public class VentanaVentas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnComprarActionPerformed
 
-    private void btnVerSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerSiguienteActionPerformed
-        VentaBoletos siguiente = sistema.getPasajeros().verSiguiente();
-        if (siguiente == null) {
-            JOptionPane.showMessageDialog(this, "No hay pasajeros en la cola.",
-                    "Cola vacía", JOptionPane.WARNING_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Siguiente en embarcar:\n" + siguiente,
-                    "Siguiente pasajero", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_btnVerSiguienteActionPerformed
+    private void btnEmbarcarGuayaquilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmbarcarGuayaquilActionPerformed
+        embarcar(0);
+    }//GEN-LAST:event_btnEmbarcarGuayaquilActionPerformed
 
-    private void btnEmbarcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmbarcarActionPerformed
-        VentaBoletos embarcado = sistema.getPasajeros().embarcar();
+    private void btnEmbarcarCuencaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmbarcarCuencaActionPerformed
+        embarcar(1);
+    }//GEN-LAST:event_btnEmbarcarCuencaActionPerformed
+
+    private void btnEmbarcarLojaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmbarcarLojaActionPerformed
+        embarcar(2);
+    }//GEN-LAST:event_btnEmbarcarLojaActionPerformed
+
+    /**
+     * Embarca al siguiente pasajero de la cola del bus indicado.
+     */
+    private void embarcar(int indiceBus) {
+        Bus bus = sistema.getBus(indiceBus);
+        Pasajeros embarcado = bus.embarcar();
         if (embarcado == null) {
-            JOptionPane.showMessageDialog(this, "No hay pasajeros en la cola para embarcar.",
+            JOptionPane.showMessageDialog(this, "No hay pasajeros en la cola del bus " + bus.getRuta() + ".",
                     "Cola vacía", JOptionPane.WARNING_MESSAGE);
             return;
         }
         txtAreaVentas.append("EMBARCÓ: " + embarcado.getNombre() + " (" + embarcado.getCedula()
-                + ") | " + embarcado.getRuta() + " | " + embarcado.getNumBoletos() + " boleto(s)\n");
+                + ") | Bus " + bus.getRuta() + " | " + embarcado.getNumBoletos() + " boleto(s)\n");
         actualizarLabels();
-    }//GEN-LAST:event_btnEmbarcarActionPerformed
+    }
 
     /**
-     * Actualiza los labels de vendidos, disponibles y total recaudado.
+     * Actualiza los labels de vendidos, disponibles, cola de cada bus y total recaudado.
      */
     private void actualizarLabels() {
-        for (int i = 0; i < SistemaVentas.RUTAS.length; i++) {
-            String ruta = SistemaVentas.RUTAS[i];
-            int disponibles = sistema.disponiblesPorRuta(ruta);
-            lblVendidos[i].setText(String.valueOf(sistema.vendidosPorRuta(ruta)));
-            lblDisponibles[i].setText(String.valueOf(disponibles));
-            lblDisponibles[i].setForeground(disponibles == 0 ? Color.RED : Color.BLACK);
+        Bus[] buses = sistema.getBuses();
+        for (int i = 0; i < buses.length; i++) {
+            Bus bus = buses[i];
+            lblVendidos[i].setText(String.valueOf(bus.getBoletosVendidos()));
+            lblDisponibles[i].setText(String.valueOf(bus.getBoletosDisponibles()));
+            lblDisponibles[i].setForeground(bus.getBoletosDisponibles() == 0 ? Color.RED : Color.BLACK);
+
+            Pasajeros siguiente = bus.verSiguiente();
+            lblSiguiente[i].setText(siguiente == null
+                    ? "Siguiente: (cola vacía)"
+                    : "Siguiente: " + siguiente.getNombre());
+            lblEnCola[i].setText("En cola: " + bus.pasajerosEnCola() + " pasajero(s)");
         }
         lblTotalRecaudado.setText(String.format("$%.2f", sistema.getTotalRecaudado()));
-
-        // Estado de la cola
-        VentaBoletos siguiente = sistema.getPasajeros().verSiguiente();
-        lblSiguiente.setText(siguiente == null
-                ? "Siguiente: (cola vacía)"
-                : "Siguiente: " + siguiente.getNombre() + " - " + siguiente.getRuta());
-        lblEnCola.setText("En cola: " + sistema.getPasajeros().tamanio());
     }
 
     private void limpiarCampos() {
@@ -338,15 +396,18 @@ public class VentanaVentas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnComprar;
-    private javax.swing.JButton btnEmbarcar;
-    private javax.swing.JButton btnVerSiguiente;
+    private javax.swing.JButton btnEmbarcarCuenca;
+    private javax.swing.JButton btnEmbarcarGuayaquil;
+    private javax.swing.JButton btnEmbarcarLoja;
     private javax.swing.JComboBox<String> cmbRuta;
     private javax.swing.JLabel lblCantidad;
     private javax.swing.JLabel lblCedula;
     private javax.swing.JLabel lblDisponiblesCuenca;
     private javax.swing.JLabel lblDisponiblesGuayaquil;
     private javax.swing.JLabel lblDisponiblesLoja;
-    private javax.swing.JLabel lblEnCola;
+    private javax.swing.JLabel lblEnColaCuenca;
+    private javax.swing.JLabel lblEnColaGuayaquil;
+    private javax.swing.JLabel lblEnColaLoja;
     private javax.swing.JLabel lblHdrDisponibles;
     private javax.swing.JLabel lblHdrRuta;
     private javax.swing.JLabel lblHdrVendidos;
@@ -355,14 +416,18 @@ public class VentanaVentas extends javax.swing.JFrame {
     private javax.swing.JLabel lblNombreGuayaquil;
     private javax.swing.JLabel lblNombreLoja;
     private javax.swing.JLabel lblRuta;
-    private javax.swing.JLabel lblSiguiente;
+    private javax.swing.JLabel lblSiguienteCuenca;
+    private javax.swing.JLabel lblSiguienteGuayaquil;
+    private javax.swing.JLabel lblSiguienteLoja;
     private javax.swing.JLabel lblTextoTotal;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTotalRecaudado;
     private javax.swing.JLabel lblVendidosCuenca;
     private javax.swing.JLabel lblVendidosGuayaquil;
     private javax.swing.JLabel lblVendidosLoja;
-    private javax.swing.JPanel pnlCola;
+    private javax.swing.JPanel pnlBusCuenca;
+    private javax.swing.JPanel pnlBusGuayaquil;
+    private javax.swing.JPanel pnlBusLoja;
     private javax.swing.JPanel pnlCompra;
     private javax.swing.JPanel pnlResumen;
     private javax.swing.JScrollPane scrollVentas;

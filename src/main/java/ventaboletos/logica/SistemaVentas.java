@@ -2,41 +2,48 @@ package ventaboletos.logica;
 
 import java.util.ArrayList;
 import java.util.List;
+import ventaboletos.modelo.Bus;
 import ventaboletos.modelo.Pasajeros;
-import ventaboletos.modelo.VentaBoletos;
 
 /**
- * Lógica del negocio: validaciones, cola de pasajeros y totales.
+ * Lógica del negocio: los 3 buses, las validaciones y los totales.
  */
 public class SistemaVentas {
 
-    public static final String[] RUTAS = {"QUITO - GUAYAQUIL", "QUITO - CUENCA", "QUITO - LOJA"};
-    public static final int ASIENTOS_POR_RUTA = 20;
     public static final int MAX_BOLETOS_POR_CEDULA = 5;
 
-    /** Cola de pasajeros que esperan embarcar. */
-    private final Pasajeros pasajeros = new Pasajeros();
+    /** Un bus por ruta (mismo orden que el ComboBox). */
+    private final Bus[] buses = {
+        new Bus("QUITO - GUAYAQUIL", 10.50),
+        new Bus("QUITO - CUENCA", 12.75),
+        new Bus("QUITO - LOJA", 15.00)
+    };
 
-    /** Historial de todas las ventas (no se borra al embarcar, sirve para totales y control por cédula). */
-    private final List<VentaBoletos> historial = new ArrayList<>();
+    /** Historial de todas las ventas (no se borra al embarcar: sirve para totales y control por cédula). */
+    private final List<Pasajeros> historial = new ArrayList<>();
 
-    public Pasajeros getPasajeros() {
-        return pasajeros;
+    public Bus[] getBuses() {
+        return buses;
     }
 
-    public List<VentaBoletos> getHistorial() {
+    public Bus getBus(int indice) {
+        return buses[indice];
+    }
+
+    public List<Pasajeros> getHistorial() {
         return historial;
     }
 
     /**
-     * Valida los datos, registra la venta y encola al pasajero.
+     * Valida los datos, registra la venta y encola al pasajero en el bus.
      *
      * @throws IllegalArgumentException con el mensaje de error si algo no es válido
      */
-    public VentaBoletos vender(String ruta, String cedula, String nombre, String textoCantidad) {
-        if (ruta == null || ruta.isEmpty()) {
+    public Pasajeros vender(int indiceBus, String cedula, String nombre, String textoCantidad) {
+        if (indiceBus < 0 || indiceBus >= buses.length) {
             throw new IllegalArgumentException("Seleccione una ruta.");
         }
+        Bus bus = buses[indiceBus];
         cedula = cedula == null ? "" : cedula.trim();
         nombre = nombre == null ? "" : nombre.trim();
         textoCantidad = textoCantidad == null ? "" : textoCantidad.trim();
@@ -79,51 +86,35 @@ public class SistemaVentas {
                             : "Solo puede comprar " + restantes + " más."));
         }
 
-        // --- 20 asientos = 20 pasajes por ruta ---
-        int disponibles = disponiblesPorRuta(ruta);
-        if (cantidad > disponibles) {
-            throw new IllegalArgumentException(disponibles == 0
-                    ? "La ruta " + ruta + " está llena (20 asientos vendidos)."
-                    : "Solo quedan " + disponibles + " asiento(s) en la ruta " + ruta + ".");
+        // --- Capacidad del bus (CAPACIDAD_MAXIMA asientos = pasajes por ruta) ---
+        if (bus.getBoletosDisponibles() == 0) {
+            throw new IllegalArgumentException("El bus " + bus.getRuta() + " está lleno ("
+                    + Bus.CAPACIDAD_MAXIMA + " asientos vendidos).");
         }
 
-        // --- Registrar venta y encolar pasajero ---
-        VentaBoletos venta = new VentaBoletos(nombre, cedula, ruta, cantidad);
-        historial.add(venta);
-        pasajeros.registrar(venta);
-        return venta;
+        // --- Registrar venta: el bus valida asientos y encola al pasajero ---
+        Pasajeros pasajero = new Pasajeros(nombre, cedula, bus.getRuta(), cantidad);
+        bus.registrar(pasajero);
+        historial.add(pasajero);
+        return pasajero;
     }
 
     /** Total de boletos comprados por una cédula (en todas las rutas). */
     public int boletosPorCedula(String cedula) {
         int total = 0;
-        for (VentaBoletos v : historial) {
-            if (v.getCedula().equals(cedula)) {
-                total += v.getNumBoletos();
+        for (Pasajeros p : historial) {
+            if (p.getCedula().equals(cedula)) {
+                total += p.getNumBoletos();
             }
         }
         return total;
-    }
-
-    public int vendidosPorRuta(String ruta) {
-        int total = 0;
-        for (VentaBoletos v : historial) {
-            if (v.getRuta().equals(ruta)) {
-                total += v.getNumBoletos();
-            }
-        }
-        return total;
-    }
-
-    public int disponiblesPorRuta(String ruta) {
-        return ASIENTOS_POR_RUTA - vendidosPorRuta(ruta);
     }
 
     /** Monto total recaudado por todas las ventas. */
     public double getTotalRecaudado() {
         double total = 0;
-        for (VentaBoletos v : historial) {
-            total += v.getTotal();
+        for (Pasajeros p : historial) {
+            total += p.getTotal();
         }
         return total;
     }
