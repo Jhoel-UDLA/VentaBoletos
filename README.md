@@ -31,27 +31,28 @@ Cada furgoneta tiene 20 asientos por viaje.
   - No se puede vender más que los asientos disponibles de la ruta (capacidad 20).
 - **Labels de resumen:** boletos vendidos y disponibles por ruta, y total recaudado.
 
-## Estructura
+## Estructura (proyecto Maven de NetBeans)
 
 ```
-src/ventaboletos/
-├── Main.java                 # Punto de entrada
+src/main/java/ventaboletos/
 ├── modelo/
-│   ├── Ruta.java             # Ruta: nombre, precio, vendidos/disponibles
-│   └── Venta.java            # Una compra: ruta, cédula, nombre, cantidad, total
+│   ├── Ruta.java              # Ruta: nombre, precio, vendidos/disponibles
+│   └── Venta.java             # Una compra: ruta, cédula, nombre, cantidad, total
 ├── logica/
-│   └── SistemaVentas.java    # Lista de ventas + validaciones
+│   └── SistemaVentas.java     # Lista de ventas (ArrayList) + validaciones
 └── vista/
-    └── VentanaVentas.java    # Interfaz gráfica (JFrame)
+    ├── VentanaVentas.form     # Diseño del JFrame Form (pestaña Design de NetBeans)
+    └── VentanaVentas.java     # JFrame Form: initComponents, evento Comprar y main
 ```
 
 ## Cómo ejecutar
 
-**NetBeans / IntelliJ / Eclipse:** abrir la carpeta, marcar `src` como carpeta de fuentes y ejecutar `ventaboletos.Main`.
+**NetBeans:** `File → Open Project`, seleccionar la carpeta `VentaBoletos` (se reconoce como proyecto Maven por el `pom.xml`).
+Abrir `VentanaVentas.java` → pestaña **Design** para ver/editar el formulario. Ejecutar con **Run Project (F6)**.
 
-**Consola:**
+**Consola (sin Maven):**
 
 ```bash
-javac -encoding UTF-8 -d out src/ventaboletos/*.java src/ventaboletos/*/*.java
-java -cp out ventaboletos.Main
+javac -encoding UTF-8 -d out $(find src -name "*.java")
+java -cp out ventaboletos.vista.VentanaVentas
 ```

@@ -7,3 +7,4 @@ bin/
 *.iml
 nbproject/private/
 .DS_Store
+target/
