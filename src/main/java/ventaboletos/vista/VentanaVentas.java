@@ -4,8 +4,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import ventaboletos.logica.SistemaVentas;
-import ventaboletos.modelo.Ruta;
-import ventaboletos.modelo.Venta;
+import ventaboletos.modelo.VentaBoletos;
 
 /**
  * Interfaz gráfica (JFrame Form de NetBeans) para la venta de boletos.
@@ -64,6 +63,11 @@ public class VentanaVentas extends javax.swing.JFrame {
         lblDisponiblesLoja = new javax.swing.JLabel();
         lblTextoTotal = new javax.swing.JLabel();
         lblTotalRecaudado = new javax.swing.JLabel();
+        pnlCola = new javax.swing.JPanel();
+        btnVerSiguiente = new javax.swing.JButton();
+        btnEmbarcar = new javax.swing.JButton();
+        lblSiguiente = new javax.swing.JLabel();
+        lblEnCola = new javax.swing.JLabel();
         scrollVentas = new javax.swing.JScrollPane();
         txtAreaVentas = new javax.swing.JTextArea();
 
@@ -190,36 +194,68 @@ public class VentanaVentas extends javax.swing.JFrame {
         getContentPane().add(pnlResumen);
         pnlResumen.setBounds(420, 50, 380, 215);
 
-        scrollVentas.setBorder(javax.swing.BorderFactory.createTitledBorder("Compras realizadas"));
+        pnlCola.setBorder(javax.swing.BorderFactory.createTitledBorder("Cola de embarque"));
+        pnlCola.setLayout(null);
+
+        btnVerSiguiente.setText("Ver siguiente");
+        btnVerSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerSiguienteActionPerformed(evt);
+            }
+        });
+        pnlCola.add(btnVerSiguiente);
+        btnVerSiguiente.setBounds(20, 25, 140, 30);
+
+        btnEmbarcar.setText("Embarcar");
+        btnEmbarcar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEmbarcar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmbarcarActionPerformed(evt);
+            }
+        });
+        pnlCola.add(btnEmbarcar);
+        btnEmbarcar.setBounds(170, 25, 140, 30);
+
+        lblSiguiente.setText("Siguiente: (cola vacía)");
+        lblSiguiente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        pnlCola.add(lblSiguiente);
+        lblSiguiente.setBounds(330, 25, 300, 30);
+
+        lblEnCola.setText("En cola: 0");
+        pnlCola.add(lblEnCola);
+        lblEnCola.setBounds(640, 25, 120, 30);
+
+        getContentPane().add(pnlCola);
+        pnlCola.setBounds(20, 275, 780, 70);
+
+        scrollVentas.setBorder(javax.swing.BorderFactory.createTitledBorder("Ventas y embarques"));
         txtAreaVentas.setEditable(false);
         txtAreaVentas.setColumns(20);
         txtAreaVentas.setRows(5);
-        txtAreaVentas.setFont(new java.awt.Font("Monospaced", 0, 13)); // NOI18N
+        txtAreaVentas.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         scrollVentas.setViewportView(txtAreaVentas);
         getContentPane().add(scrollVentas);
-        scrollVentas.setBounds(20, 280, 780, 270);
+        scrollVentas.setBounds(20, 355, 780, 270);
 
-        setSize(new java.awt.Dimension(840, 610));
+        setSize(new java.awt.Dimension(840, 690));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
         try {
-            // La ruta se obtiene según la posición seleccionada en el ComboBox
-            Ruta ruta = sistema.getRutas().get(cmbRuta.getSelectedIndex());
-
-            Venta venta = sistema.comprar(ruta,
+            String ruta = (String) cmbRuta.getSelectedItem();
+            VentaBoletos venta = sistema.vender(ruta,
                     txtCedula.getText(),
                     txtNombre.getText(),
                     txtCantidad.getText());
 
-            // Mostrar la compra en el TextArea
-            txtAreaVentas.append(sistema.getVentas().size() + ". " + venta.getDetalle() + "\n");
+            // Mostrar la venta en el TextArea
+            txtAreaVentas.append("VENTA:   " + venta + "\n");
 
             actualizarLabels();
             limpiarCampos();
             JOptionPane.showMessageDialog(this,
-                    String.format("Compra registrada.%nTotal a pagar: $%.2f", venta.getTotal()),
+                    String.format("Venta registrada y pasajero en cola.%nTotal a pagar: $%.2f", venta.getTotal()),
                     "Compra exitosa", JOptionPane.INFORMATION_MESSAGE);
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(),
@@ -227,17 +263,48 @@ public class VentanaVentas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnComprarActionPerformed
 
+    private void btnVerSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerSiguienteActionPerformed
+        VentaBoletos siguiente = sistema.getPasajeros().verSiguiente();
+        if (siguiente == null) {
+            JOptionPane.showMessageDialog(this, "No hay pasajeros en la cola.",
+                    "Cola vacía", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Siguiente en embarcar:\n" + siguiente,
+                    "Siguiente pasajero", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnVerSiguienteActionPerformed
+
+    private void btnEmbarcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmbarcarActionPerformed
+        VentaBoletos embarcado = sistema.getPasajeros().embarcar();
+        if (embarcado == null) {
+            JOptionPane.showMessageDialog(this, "No hay pasajeros en la cola para embarcar.",
+                    "Cola vacía", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        txtAreaVentas.append("EMBARCÓ: " + embarcado.getNombre() + " (" + embarcado.getCedula()
+                + ") | " + embarcado.getRuta() + " | " + embarcado.getNumBoletos() + " boleto(s)\n");
+        actualizarLabels();
+    }//GEN-LAST:event_btnEmbarcarActionPerformed
+
     /**
      * Actualiza los labels de vendidos, disponibles y total recaudado.
      */
     private void actualizarLabels() {
-        for (int i = 0; i < sistema.getRutas().size(); i++) {
-            Ruta r = sistema.getRutas().get(i);
-            lblVendidos[i].setText(String.valueOf(r.getBoletosVendidos()));
-            lblDisponibles[i].setText(String.valueOf(r.getBoletosDisponibles()));
-            lblDisponibles[i].setForeground(r.getBoletosDisponibles() == 0 ? Color.RED : Color.BLACK);
+        for (int i = 0; i < SistemaVentas.RUTAS.length; i++) {
+            String ruta = SistemaVentas.RUTAS[i];
+            int disponibles = sistema.disponiblesPorRuta(ruta);
+            lblVendidos[i].setText(String.valueOf(sistema.vendidosPorRuta(ruta)));
+            lblDisponibles[i].setText(String.valueOf(disponibles));
+            lblDisponibles[i].setForeground(disponibles == 0 ? Color.RED : Color.BLACK);
         }
         lblTotalRecaudado.setText(String.format("$%.2f", sistema.getTotalRecaudado()));
+
+        // Estado de la cola
+        VentaBoletos siguiente = sistema.getPasajeros().verSiguiente();
+        lblSiguiente.setText(siguiente == null
+                ? "Siguiente: (cola vacía)"
+                : "Siguiente: " + siguiente.getNombre() + " - " + siguiente.getRuta());
+        lblEnCola.setText("En cola: " + sistema.getPasajeros().tamanio());
     }
 
     private void limpiarCampos() {
@@ -271,12 +338,15 @@ public class VentanaVentas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnComprar;
+    private javax.swing.JButton btnEmbarcar;
+    private javax.swing.JButton btnVerSiguiente;
     private javax.swing.JComboBox<String> cmbRuta;
     private javax.swing.JLabel lblCantidad;
     private javax.swing.JLabel lblCedula;
     private javax.swing.JLabel lblDisponiblesCuenca;
     private javax.swing.JLabel lblDisponiblesGuayaquil;
     private javax.swing.JLabel lblDisponiblesLoja;
+    private javax.swing.JLabel lblEnCola;
     private javax.swing.JLabel lblHdrDisponibles;
     private javax.swing.JLabel lblHdrRuta;
     private javax.swing.JLabel lblHdrVendidos;
@@ -285,12 +355,14 @@ public class VentanaVentas extends javax.swing.JFrame {
     private javax.swing.JLabel lblNombreGuayaquil;
     private javax.swing.JLabel lblNombreLoja;
     private javax.swing.JLabel lblRuta;
+    private javax.swing.JLabel lblSiguiente;
     private javax.swing.JLabel lblTextoTotal;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTotalRecaudado;
     private javax.swing.JLabel lblVendidosCuenca;
     private javax.swing.JLabel lblVendidosGuayaquil;
     private javax.swing.JLabel lblVendidosLoja;
+    private javax.swing.JPanel pnlCola;
     private javax.swing.JPanel pnlCompra;
     private javax.swing.JPanel pnlResumen;
     private javax.swing.JScrollPane scrollVentas;

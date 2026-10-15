@@ -21,28 +21,32 @@ Cada furgoneta tiene 20 asientos por viaje.
 
 ## Funcionalidades
 
-- **Interfaz gráfica:** ComboBox de rutas, campos de cédula, nombre y número de boletos, botón *Comprar*.
-- **Registro de compras:** cada venta se guarda en un `ArrayList<Venta>` y se muestra en el TextArea con ruta, cantidad, pasajero y total.
+- **Interfaz (JFrame Form de NetBeans):** ComboBox de rutas, campos de cédula, nombre y número de boletos, botón *Comprar*, y panel *Cola de embarque* con botones *Ver siguiente* y *Embarcar*.
+- **Clase `VentaBoletos`:** nombre, cédula, ruta y número de boletos, con constructor, get, set y `toString`.
+- **Clase `Pasajeros` (cola con `LinkedList`):**
+  - `registrar(venta)`: al vender, el pasajero entra al final de la cola.
+  - `embarcar()`: saca de la cola al primero (el que ya subió).
+  - `verSiguiente()`: muestra quién es el siguiente sin sacarlo.
 - **Validaciones:**
-  - Cédula obligatoria de 10 dígitos numéricos.
-  - Nombre obligatorio (solo letras y espacios).
-  - Boletos entre 1 y 5 por transacción (no negativos, no cero, no texto).
-  - Máximo 5 boletos acumulados por cédula (sumando todas las compras).
-  - No se puede vender más que los asientos disponibles de la ruta (capacidad 20).
-- **Labels de resumen:** boletos vendidos y disponibles por ruta, y total recaudado.
+  - Cédula obligatoria de 10 dígitos numéricos; nombre obligatorio (solo letras).
+  - Boletos entre 1 y 5 por compra (no negativos, no cero, no texto).
+  - Máximo 5 boletos **en total** por cédula, sumando compras anteriores.
+  - 20 asientos = 20 pasajes por ruta; no se vende más de lo disponible.
+- **TextArea:** muestra cada venta (ruta, boletos, pasajero, total) y cada embarque.
+- **Labels:** vendidos y disponibles por ruta, total recaudado, siguiente en la cola y cuántos hay en cola.
 
 ## Estructura (proyecto Maven de NetBeans)
 
 ```
 src/main/java/ventaboletos/
 ├── modelo/
-│   ├── Ruta.java              # Ruta: nombre, precio, vendidos/disponibles
-│   └── Venta.java             # Una compra: ruta, cédula, nombre, cantidad, total
+│   ├── VentaBoletos.java      # nombre, cédula, ruta, número de boletos (+ get/set/toString)
+│   └── Pasajeros.java         # Cola (LinkedList): registrar, embarcar, verSiguiente
 ├── logica/
-│   └── SistemaVentas.java     # Lista de ventas (ArrayList) + validaciones
+│   └── SistemaVentas.java     # Validaciones, historial de ventas y totales
 └── vista/
     ├── VentanaVentas.form     # Diseño del JFrame Form (pestaña Design de NetBeans)
-    └── VentanaVentas.java     # JFrame Form: initComponents, evento Comprar y main
+    └── VentanaVentas.java     # JFrame Form: initComponents, eventos y main
 ```
 
 ## Cómo ejecutar
