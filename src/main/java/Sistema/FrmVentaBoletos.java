@@ -5,6 +5,12 @@ import javax.swing.JOptionPane;
 
 /**
  * formulario para la venta de boletos de las 3 rutas.
+ *
+ * integrantes:
+ * - iván alejandro montero bravo
+ * - jhoel núñez pillajo
+ * - jhandry orozco
+ * - mateo gaibor balseca
  */
 public class FrmVentaBoletos extends javax.swing.JFrame {
 
@@ -50,9 +56,18 @@ public class FrmVentaBoletos extends javax.swing.JFrame {
         txtBoletos = new javax.swing.JTextField();
         btnComprar = new javax.swing.JButton();
         lblResumen = new javax.swing.JLabel();
-        lblGuayaquil = new javax.swing.JLabel();
-        lblCuenca = new javax.swing.JLabel();
-        lblLoja = new javax.swing.JLabel();
+        lblTituloRuta = new javax.swing.JLabel();
+        lblTituloVendidos = new javax.swing.JLabel();
+        lblTituloDisponibles = new javax.swing.JLabel();
+        lblRutaGuayaquil = new javax.swing.JLabel();
+        lblVendidosGuayaquil = new javax.swing.JLabel();
+        lblDisponiblesGuayaquil = new javax.swing.JLabel();
+        lblRutaCuenca = new javax.swing.JLabel();
+        lblVendidosCuenca = new javax.swing.JLabel();
+        lblDisponiblesCuenca = new javax.swing.JLabel();
+        lblRutaLoja = new javax.swing.JLabel();
+        lblVendidosLoja = new javax.swing.JLabel();
+        lblDisponiblesLoja = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         btnEmbarcarGuayaquil = new javax.swing.JButton();
         lblSiguienteGuayaquil = new javax.swing.JLabel();
@@ -63,6 +78,7 @@ public class FrmVentaBoletos extends javax.swing.JFrame {
         btnEmbarcarLoja = new javax.swing.JButton();
         lblSiguienteLoja = new javax.swing.JLabel();
         lblColaLoja = new javax.swing.JLabel();
+        lblIntegrantes = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtAreaVentas = new javax.swing.JTextArea();
 
@@ -116,24 +132,63 @@ public class FrmVentaBoletos extends javax.swing.JFrame {
         lblResumen.setText("resumen de ventas");
         lblResumen.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         getContentPane().add(lblResumen);
-        lblResumen.setBounds(360, 55, 270, 25);
+        lblResumen.setBounds(350, 50, 290, 25);
 
-        lblGuayaquil.setText("quito - guayaquil: vendidos 0 | disponibles 20");
-        getContentPane().add(lblGuayaquil);
-        lblGuayaquil.setBounds(360, 85, 280, 25);
+        lblTituloRuta.setText("ruta");
+        lblTituloRuta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(lblTituloRuta);
+        lblTituloRuta.setBounds(350, 78, 130, 22);
 
-        lblCuenca.setText("quito - cuenca: vendidos 0 | disponibles 20");
-        getContentPane().add(lblCuenca);
-        lblCuenca.setBounds(360, 115, 280, 25);
+        lblTituloVendidos.setText("vendidos");
+        lblTituloVendidos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(lblTituloVendidos);
+        lblTituloVendidos.setBounds(485, 78, 65, 22);
 
-        lblLoja.setText("quito - loja: vendidos 0 | disponibles 20");
-        getContentPane().add(lblLoja);
-        lblLoja.setBounds(360, 145, 280, 25);
+        lblTituloDisponibles.setText("disponibles");
+        lblTituloDisponibles.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(lblTituloDisponibles);
+        lblTituloDisponibles.setBounds(555, 78, 85, 22);
+
+        lblRutaGuayaquil.setText("quito - guayaquil");
+        getContentPane().add(lblRutaGuayaquil);
+        lblRutaGuayaquil.setBounds(350, 103, 130, 22);
+
+        lblVendidosGuayaquil.setText("0");
+        getContentPane().add(lblVendidosGuayaquil);
+        lblVendidosGuayaquil.setBounds(485, 103, 65, 22);
+
+        lblDisponiblesGuayaquil.setText("20");
+        getContentPane().add(lblDisponiblesGuayaquil);
+        lblDisponiblesGuayaquil.setBounds(555, 103, 85, 22);
+
+        lblRutaCuenca.setText("quito - cuenca");
+        getContentPane().add(lblRutaCuenca);
+        lblRutaCuenca.setBounds(350, 128, 130, 22);
+
+        lblVendidosCuenca.setText("0");
+        getContentPane().add(lblVendidosCuenca);
+        lblVendidosCuenca.setBounds(485, 128, 65, 22);
+
+        lblDisponiblesCuenca.setText("20");
+        getContentPane().add(lblDisponiblesCuenca);
+        lblDisponiblesCuenca.setBounds(555, 128, 85, 22);
+
+        lblRutaLoja.setText("quito - loja");
+        getContentPane().add(lblRutaLoja);
+        lblRutaLoja.setBounds(350, 153, 130, 22);
+
+        lblVendidosLoja.setText("0");
+        getContentPane().add(lblVendidosLoja);
+        lblVendidosLoja.setBounds(485, 153, 65, 22);
+
+        lblDisponiblesLoja.setText("20");
+        getContentPane().add(lblDisponiblesLoja);
+        lblDisponiblesLoja.setBounds(555, 153, 85, 22);
 
         lblTotal.setText("total recaudado: $0.00");
         lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         getContentPane().add(lblTotal);
-        lblTotal.setBounds(360, 180, 280, 25);
+        lblTotal.setBounds(350, 185, 290, 25);
 
         btnEmbarcarGuayaquil.setText("embarcar bus guayaquil");
         btnEmbarcarGuayaquil.addActionListener(new java.awt.event.ActionListener() {
@@ -186,14 +241,18 @@ public class FrmVentaBoletos extends javax.swing.JFrame {
         getContentPane().add(lblColaLoja);
         lblColaLoja.setBounds(430, 300, 195, 20);
 
+        lblIntegrantes.setText("integrantes: iván montero, jhoel núñez, jhandry orozco, mateo gaibor");
+        getContentPane().add(lblIntegrantes);
+        lblIntegrantes.setBounds(20, 570, 605, 20);
+
         txtAreaVentas.setEditable(false);
         txtAreaVentas.setColumns(20);
         txtAreaVentas.setRows(5);
         jScrollPane1.setViewportView(txtAreaVentas);
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(20, 335, 605, 230);
+        jScrollPane1.setBounds(20, 335, 605, 228);
 
-        setSize(new java.awt.Dimension(660, 620));
+        setSize(new java.awt.Dimension(660, 646));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -264,9 +323,11 @@ public class FrmVentaBoletos extends javax.swing.JFrame {
         ventas.add(pasajero);
         totalRecaudado = totalRecaudado + pasajero.getTotal();
 
+        // mostrar la compra en el textarea: ruta, cantidad, nombre y precio total
         txtAreaVentas.append("venta -> " + pasajero.toString() + "\n");
         actualizarLabels();
         limpiar();
+        JOptionPane.showMessageDialog(this, String.format("compra realizada%ntotal a pagar: $%.2f", pasajero.getTotal()));
     }//GEN-LAST:event_btnComprarActionPerformed
 
     private void btnEmbarcarGuayaquilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmbarcarGuayaquilActionPerformed
@@ -357,16 +418,22 @@ public class FrmVentaBoletos extends javax.swing.JFrame {
         return verificador == ultimoDigito;
     }
 
-    // actualiza vendidos, disponibles, total recaudado y la cola de cada bus
+    // actualiza los labels de vendidos, disponibles, total recaudado y la cola de cada bus
     private void actualizarLabels() {
-        lblGuayaquil.setText(busGuayaquil.getRuta() + ": vendidos " + busGuayaquil.getBoletosVendidos()
-                + " | disponibles " + busGuayaquil.getBoletosDisponibles());
-        lblCuenca.setText(busCuenca.getRuta() + ": vendidos " + busCuenca.getBoletosVendidos()
-                + " | disponibles " + busCuenca.getBoletosDisponibles());
-        lblLoja.setText(busLoja.getRuta() + ": vendidos " + busLoja.getBoletosVendidos()
-                + " | disponibles " + busLoja.getBoletosDisponibles());
+        // boletos vendidos por cada ruta
+        lblVendidosGuayaquil.setText(String.valueOf(busGuayaquil.getBoletosVendidos()));
+        lblVendidosCuenca.setText(String.valueOf(busCuenca.getBoletosVendidos()));
+        lblVendidosLoja.setText(String.valueOf(busLoja.getBoletosVendidos()));
+
+        // boletos disponibles restantes por cada ruta
+        lblDisponiblesGuayaquil.setText(String.valueOf(busGuayaquil.getBoletosDisponibles()));
+        lblDisponiblesCuenca.setText(String.valueOf(busCuenca.getBoletosDisponibles()));
+        lblDisponiblesLoja.setText(String.valueOf(busLoja.getBoletosDisponibles()));
+
+        // monto total recaudado por todas las ventas
         lblTotal.setText(String.format("total recaudado: $%.2f", totalRecaudado));
 
+        // siguiente pasajero y cantidad en cola de cada bus
         lblSiguienteGuayaquil.setText("siguiente: " + nombreSiguiente(busGuayaquil));
         lblSiguienteCuenca.setText("siguiente: " + nombreSiguiente(busCuenca));
         lblSiguienteLoja.setText("siguiente: " + nombreSiguiente(busLoja));
@@ -430,17 +497,27 @@ public class FrmVentaBoletos extends javax.swing.JFrame {
     private javax.swing.JLabel lblColaCuenca;
     private javax.swing.JLabel lblColaGuayaquil;
     private javax.swing.JLabel lblColaLoja;
-    private javax.swing.JLabel lblCuenca;
-    private javax.swing.JLabel lblGuayaquil;
-    private javax.swing.JLabel lblLoja;
+    private javax.swing.JLabel lblDisponiblesCuenca;
+    private javax.swing.JLabel lblDisponiblesGuayaquil;
+    private javax.swing.JLabel lblDisponiblesLoja;
+    private javax.swing.JLabel lblIntegrantes;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblResumen;
     private javax.swing.JLabel lblRuta;
+    private javax.swing.JLabel lblRutaCuenca;
+    private javax.swing.JLabel lblRutaGuayaquil;
+    private javax.swing.JLabel lblRutaLoja;
     private javax.swing.JLabel lblSiguienteCuenca;
     private javax.swing.JLabel lblSiguienteGuayaquil;
     private javax.swing.JLabel lblSiguienteLoja;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblTituloDisponibles;
+    private javax.swing.JLabel lblTituloRuta;
+    private javax.swing.JLabel lblTituloVendidos;
     private javax.swing.JLabel lblTotal;
+    private javax.swing.JLabel lblVendidosCuenca;
+    private javax.swing.JLabel lblVendidosGuayaquil;
+    private javax.swing.JLabel lblVendidosLoja;
     private javax.swing.JTextArea txtAreaVentas;
     private javax.swing.JTextField txtBoletos;
     private javax.swing.JTextField txtCedula;

@@ -1,7 +1,13 @@
 package Sistema;
 
 /**
- *venta de boletos a un pasajero.
+ * clase pasajeros: datos del pasajero y los boletos que compra.
+ *
+ * integrantes:
+ * - iván alejandro montero bravo
+ * - jhoel núñez pillajo
+ * - jhandry orozco
+ * - mateo gaibor balseca
  */
 public class Pasajeros {
 

@@ -6,6 +6,12 @@ import java.util.Queue;
 /**
  * clase bus: cola de pasajeros de una ruta.
  * se usa arraydeque (cola implementada con arreglo), el primero que compra es el primero que sube.
+ *
+ * integrantes:
+ * - iván alejandro montero bravo
+ * - jhoel núñez pillajo
+ * - jhandry orozco
+ * - mateo gaibor balseca
  */
 public class Bus {
 
