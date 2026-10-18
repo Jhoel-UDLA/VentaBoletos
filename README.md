@@ -21,44 +21,31 @@ Cada furgoneta tiene 20 asientos por viaje.
 
 ## Funcionalidades
 
-- **Interfaz (JFrame Form de NetBeans):** ComboBox de rutas, campos de cédula, nombre y número de boletos, botón *Comprar*, y un panel por cada bus con su botón *Embarcar* (3 buses = 3 botones).
-- **Clase `Pasajeros`:** nombre, cédula, ruta y número de boletos, con constructor, get, set y `toString`.
-- **Clase `Bus` (cola con `ArrayDeque`):**
-  - `CAPACIDAD_MAXIMA = 20`: constante, por si cambia la capacidad de la ruta.
-  - `boletosDisponibles`: variable que se actualiza con cada venta.
-  - `registrar(pasajero)`: al vender, el pasajero entra al final de la cola del bus.
-  - `embarcar()`: saca de la cola al primero (el que ya subió).
-  - `verSiguiente()`: muestra quién es el siguiente sin sacarlo.
-- **Validaciones:**
-  - Cédula obligatoria de 10 dígitos numéricos; nombre obligatorio (solo letras).
-  - Boletos entre 1 y 5 por compra (no negativos, no cero, no texto).
-  - Máximo 5 boletos **en total** por cédula, sumando compras anteriores.
-  - 20 asientos = 20 pasajes por ruta; no se vende más de lo disponible.
-- **TextArea:** muestra cada venta (ruta, boletos, pasajero, total) y cada embarque.
-- **Labels:** vendidos y disponibles por ruta, total recaudado, y siguiente/en cola de cada bus.
+1. **clase `Pasajeros`:** nombre, cédula, ruta y número de boletos, con constructor, get, set y `toString`.
+2. **clase `Bus` (cola con `ArrayDeque`):** `registrar()` encola al pasajero al vender, `embarcar()` saca al que ya subió y `verSiguiente()` muestra el siguiente.
+3. **formulario:** cada compra debe ser de 1 a 5 boletos y cada cédula puede tener máximo 5 boletos en total.
+4. **20 asientos = 20 pasajes por ruta:** no se vende más de lo disponible.
+5. **`CAPACIDAD_MAXIMA = 20`:** constante en `Bus`, por si cambia la capacidad.
+6. **`boletosDisponibles`:** variable de cada bus que se actualiza con cada venta.
+7. **3 buses, 3 botones:** un botón de embarcar por cada ruta.
 
-## Estructura (proyecto Maven de NetBeans)
+## Estructura
 
 ```
-src/main/java/ventaboletos/
-├── modelo/
-│   ├── Pasajeros.java         # nombre, cédula, ruta, número de boletos (+ get/set/toString)
-│   └── Bus.java               # Cola ArrayDeque: registrar, embarcar, verSiguiente, CAPACIDAD_MAXIMA
-├── logica/
-│   └── SistemaVentas.java     # 3 buses, validaciones, historial y total recaudado
-└── vista/
-    ├── VentanaVentas.form     # Diseño del JFrame Form (pestaña Design de NetBeans)
-    └── VentanaVentas.java     # JFrame Form: initComponents, eventos y main
+src/main/java/Sistema/
+├── Pasajeros.java
+├── Bus.java
+├── FrmVentaBoletos.java
+└── FrmVentaBoletos.form
 ```
 
 ## Cómo ejecutar
 
-**NetBeans:** `File → Open Project`, seleccionar la carpeta `VentaBoletos` (se reconoce como proyecto Maven por el `pom.xml`).
-Abrir `VentanaVentas.java` → pestaña **Design** para ver/editar el formulario. Ejecutar con **Run Project (F6)**.
+**NetBeans:** `File → Open Project` y seleccionar la carpeta `VentaBoletos`. Ejecutar con **Run Project (F6)**.
 
-**Consola (sin Maven):**
+**Consola:**
 
 ```bash
-javac -encoding UTF-8 -d out $(find src -name "*.java")
-java -cp out ventaboletos.vista.VentanaVentas
+javac -encoding UTF-8 -d out src/main/java/Sistema/*.java
+java -cp out Sistema.FrmVentaBoletos
 ```
