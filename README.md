@@ -54,11 +54,9 @@ src/main/java/Sistema/
 
 ## Cómo ejecutar
 
-**NetBeans:** `File → Open Project` y seleccionar la carpeta `VentaBoletos`. Ejecutar con **Run Project (F6)**.
+**IntelliJ IDEA:**
+1. Abrir la carpeta `VentaBoletos` como proyecto.
+2. Abrir `FrmVentaBoletos.form` para ver el diseño en el GUI Designer.
+3. Ejecutar con el ▶ verde junto al `main` de `FrmVentaBoletos.java`.
 
-**Consola:**
-
-```bash
-javac -encoding UTF-8 -d out src/main/java/Sistema/*.java
-java -cp out Sistema.FrmVentaBoletos
-```
+El formulario está hecho con el GUI Designer de IntelliJ (`.form` con GridBagLayout), así que no necesita librerías extra.
