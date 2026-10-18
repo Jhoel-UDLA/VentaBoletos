@@ -209,9 +209,13 @@ public class FrmVentaBoletos extends javax.swing.JFrame {
             return;
         }
 
-        // validar cedula: 10 numeros
+        // validar cedula: 10 numeros y que sea una cedula ecuatoriana valida
         if (cedula.length() != 10 || !esNumero(cedula)) {
             JOptionPane.showMessageDialog(this, "la cédula debe tener 10 números");
+            return;
+        }
+        if (!cedulaValida(cedula)) {
+            JOptionPane.showMessageDialog(this, "la cédula ingresada no es una cédula ecuatoriana válida");
             return;
         }
 
@@ -320,6 +324,37 @@ public class FrmVentaBoletos extends javax.swing.JFrame {
             }
         }
         return true;
+    }
+
+    // valida la cedula ecuatoriana con el algoritmo modulo 10
+    private boolean cedulaValida(String cedula) {
+        // los 2 primeros digitos son la provincia (01 a 24, o 30 para ecuatorianos en el exterior)
+        int provincia = Integer.parseInt(cedula.substring(0, 2));
+        if ((provincia < 1 || provincia > 24) && provincia != 30) {
+            return false;
+        }
+
+        // el tercer digito debe ser menor a 6 (persona natural)
+        int tercerDigito = Character.getNumericValue(cedula.charAt(2));
+        if (tercerDigito >= 6) {
+            return false;
+        }
+
+        // coeficientes 2,1,2,1,2,1,2,1,2 para los 9 primeros digitos
+        int[] coeficientes = {2, 1, 2, 1, 2, 1, 2, 1, 2};
+        int suma = 0;
+        for (int i = 0; i < 9; i++) {
+            int valor = Character.getNumericValue(cedula.charAt(i)) * coeficientes[i];
+            if (valor > 9) {
+                valor = valor - 9;
+            }
+            suma = suma + valor;
+        }
+
+        // el digito verificador es lo que falta para llegar a la siguiente decena
+        int verificador = (10 - (suma % 10)) % 10;
+        int ultimoDigito = Character.getNumericValue(cedula.charAt(9));
+        return verificador == ultimoDigito;
     }
 
     // actualiza vendidos, disponibles, total recaudado y la cola de cada bus
