@@ -14,12 +14,8 @@ Cada furgoneta tiene 20 asientos por viaje.
 
 - Iván Alejandro Montero Bravo
 - Jhoel Núñez Pillajo
-- Jhandry Orozco
-- Mateo Gaibor Balseca
 
 **Asignatura:** Programación III – Universidad de Las Américas (UDLA)
-
-## Funcionalidades
 
 **Enunciado y rúbrica**
 
@@ -51,8 +47,6 @@ src/main/java/Sistema/
 ├── FrmVentaBoletos.java
 └── FrmVentaBoletos.form
 ```
-
-## Cómo ejecutar
 
 **IntelliJ IDEA:**
 1. Abrir la carpeta `VentaBoletos` como proyecto.
